@@ -2,7 +2,7 @@ const mongoose= require('mongoose')
 const userSchema=mongoose.Schema({
     username:{type:String,unique:true},
     pass:String,
-    roles:Array
+    roles: { type: [String], default: [] } // Define an array of strings with default value as an empty array
 },{
     versionKey:false}
     )
