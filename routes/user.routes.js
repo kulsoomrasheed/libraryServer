@@ -15,23 +15,25 @@ userRouter.get("/",async(req,res)=>{
 
 })
 userRouter.post("/register",(req,res)=>{
-    const {username,pass,roles}= req.body
+    const {username,email,pass,roles}= req.body
    try{
     
  bcrypt.hash(pass,5,async(err,hash)=>{
         if (err){
-            res.json({err})
+            res.status(404).json({err})
         }else{
-            const user= new UserModel({username,pass:hash,roles})
+            const user= new UserModel({email,username,pass:hash,roles})
             await user.save()
             res.status(200).send("A new user has been registered!")
         }
     }) 
    
    }catch(error){
-    console.log(error)
-    res.status(404).json({err:err.message})
-
+    if (error.code === 11000 && error.keyValue.email === null) {
+        console.log("Ignoring duplicate key error for null email");
+      } else {
+        console.error(error);
+      }
    }
 })
 
