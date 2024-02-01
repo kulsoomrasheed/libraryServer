@@ -6,8 +6,7 @@ const auth = (req, res, next) => {
             const decoded = jwt.verify(token, process.env.secret);
             if (decoded) {
                 console.log(decoded,"line. 8");
-                req.body.user=decoded.username;
-                req.body.userID=decoded._id;
+                req.body.username=decoded.username;
 console.log(decoded);
                 next();
             } else {

@@ -2,7 +2,7 @@ const express= require('express')
 const { Book } = require('../model/model')
 const { auth } = require('../middlewares/auth.middleware')
 const bookRouter = express.Router()
-//bookRouter.use(auth)
+bookRouter.use(auth)
 
 bookRouter.get("/",async(req,res)=>{
     try {
@@ -15,10 +15,10 @@ bookRouter.get("/",async(req,res)=>{
 })
 
 bookRouter.post("/",async(req,res)=>{
-   const user = req.body.user;
-    const { title, author ,category} = req.body;
+   const username = req.body.username;
+    const { title } = req.body;
     try{
-    const employee= new Book({ title,author,category})
+    const employee= new Book({ title,username})
     await employee.save()
     res.status(200).json({msg:"A new doctor has been added"})
     }catch{
